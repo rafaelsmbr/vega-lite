@@ -29,12 +29,8 @@ export function parseUnitSelection(model: UnitModel, selDefs: SelectionDef[]) {
     // a property (e.g., "nearest": true). Project transform applies its defaults.
     const {fields, encodings, ...cfg} = selectionConfig[type];
     for (const key in cfg) {
-      if (key === 'mark') {
-        defaults[key] = {...cfg[key], ...defaults[key]};
-      }
-
       if (defaults[key] === undefined || defaults[key] === true) {
-        defaults[key] = cfg[key] ?? defaults[key];
+        defaults[key] = duplicate(cfg[key] ?? defaults[key]);
       }
     }
 

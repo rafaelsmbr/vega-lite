@@ -2,7 +2,6 @@ import {Binding, isString, NewSignal, Signal, Stream} from 'vega';
 import {stringValue} from 'vega-util';
 import {FACET_CHANNELS} from '../../channel';
 import {
-  BrushConfig,
   LegendBinding,
   SelectionInit,
   SelectionInitInterval,
@@ -15,7 +14,7 @@ import {OutputNode} from '../data/dataflow';
 import {FacetModel} from '../facet';
 import {isFacetModel, Model} from '../model';
 import {UnitModel} from '../unit';
-import interval from './interval';
+import interval, {IntervalSelectionComponent} from './interval';
 import point from './point';
 import {SelectionProjection, SelectionProjectionComponent} from './project';
 import {SelectionDef} from '../../selection';
@@ -45,10 +44,8 @@ export interface SelectionComponent<T extends SelectionType = SelectionType> {
   bind?: 'scales' | Binding | Dict<Binding> | LegendBinding;
   resolve: SelectionResolution;
   empty: 'all' | 'none';
-  mark?: BrushConfig;
-
-  // Transforms
   project: SelectionProjectionComponent;
+  interval?: IntervalSelectionComponent;
   scales?: SelectionProjection[];
   toggle?: any;
   translate?: any;
