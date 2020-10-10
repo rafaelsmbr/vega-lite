@@ -5,7 +5,13 @@
   "padding": 5,
   "height": 200,
   "data": [
-    {"name": "hover_store"},
+    {
+      "name": "hover_store",
+      "transform": [
+        {"type": "formula", "expr": "datum.values[0]", "as": "_vgsid_"},
+        {"type": "collect", "sort": {"field": "_vgsid_"}}
+      ]
+    },
     {
       "name": "source_0",
       "url": "data/cars.json",
@@ -44,7 +50,7 @@
     },
     {
       "name": "hover",
-      "update": "vlSelectionResolve(\"hover_store\", \"union\")"
+      "update": "vlSelectionResolve(\"hover_store\", \"union\", true)"
     }
   ],
   "layout": {"padding": 20, "bounds": "full", "align": "each"},
@@ -79,11 +85,25 @@
           "value": [{"type": "E", "field": "_vgsid_"}]
         },
         {
+          "name": "hover_toggle",
+          "value": false,
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "event.shiftKey"
+            },
+            {
+              "events": [{"source": "scope", "type": "dblclick"}],
+              "update": "false"
+            }
+          ]
+        },
+        {
           "name": "hover_modify",
           "on": [
             {
               "events": {"signal": "hover_tuple"},
-              "update": "modify(\"hover_store\", hover_tuple, true)"
+              "update": "modify(\"hover_store\", hover_toggle ? null : hover_tuple, hover_toggle ? null : true, hover_toggle ? hover_tuple : null)"
             }
           ]
         }
@@ -101,7 +121,7 @@
               "fill": {"value": "transparent"},
               "stroke": [
                 {
-                  "test": "(vlSelectionTest(\"hover_store\", datum))",
+                  "test": "(vlSelectionIdTest(\"hover_store\", datum))",
                   "scale": "color",
                   "field": "Cylinders"
                 },
@@ -197,11 +217,25 @@
           "value": [{"type": "E", "field": "_vgsid_"}]
         },
         {
+          "name": "hover_toggle",
+          "value": false,
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "event.shiftKey"
+            },
+            {
+              "events": [{"source": "scope", "type": "dblclick"}],
+              "update": "false"
+            }
+          ]
+        },
+        {
           "name": "hover_modify",
           "on": [
             {
               "events": {"signal": "hover_tuple"},
-              "update": "modify(\"hover_store\", hover_tuple, true)"
+              "update": "modify(\"hover_store\", hover_toggle ? null : hover_tuple, hover_toggle ? null : true, hover_toggle ? hover_tuple : null)"
             }
           ]
         }
@@ -219,7 +253,7 @@
               "fill": {"value": "transparent"},
               "stroke": [
                 {
-                  "test": "(vlSelectionTest(\"hover_store\", datum))",
+                  "test": "(vlSelectionIdTest(\"hover_store\", datum))",
                   "scale": "color",
                   "field": "Cylinders"
                 },

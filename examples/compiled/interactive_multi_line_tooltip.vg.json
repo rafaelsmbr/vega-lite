@@ -6,7 +6,13 @@
   "height": 200,
   "style": "cell",
   "data": [
-    {"name": "hover_store"},
+    {
+      "name": "hover_store",
+      "transform": [
+        {"type": "formula", "expr": "datum.values[0]", "as": "_vgsid_"},
+        {"type": "collect", "sort": {"field": "_vgsid_"}}
+      ]
+    },
     {
       "name": "source_0",
       "url": "data/seattle-weather.csv",
@@ -42,7 +48,7 @@
     },
     {
       "name": "hover",
-      "update": "vlSelectionResolve(\"hover_store\", \"union\")"
+      "update": "vlSelectionResolve(\"hover_store\", \"union\", true)"
     },
     {
       "name": "hover_tuple",
@@ -60,11 +66,22 @@
       "value": [{"type": "E", "field": "_vgsid_"}]
     },
     {
+      "name": "hover_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "event.shiftKey"
+        },
+        {"events": [{"source": "scope", "type": "dblclick"}], "update": "false"}
+      ]
+    },
+    {
       "name": "hover_modify",
       "on": [
         {
           "events": {"signal": "hover_tuple"},
-          "update": "modify(\"hover_store\", hover_tuple, true)"
+          "update": "modify(\"hover_store\", hover_toggle ? null : hover_tuple, hover_toggle ? null : true, hover_toggle ? hover_tuple : null)"
         }
       ]
     }
@@ -128,7 +145,7 @@
         "update": {
           "stroke": [
             {
-              "test": "(!(vlSelectionTest(\"hover_store\", datum)))",
+              "test": "(!(vlSelectionIdTest(\"hover_store\", datum)))",
               "value": "transparent"
             },
             {"value": "black"}

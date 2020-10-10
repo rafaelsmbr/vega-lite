@@ -6,7 +6,13 @@
   "height": 200,
   "style": "cell",
   "data": [
-    {"name": "paintbrush_store"},
+    {
+      "name": "paintbrush_store",
+      "transform": [
+        {"type": "formula", "expr": "datum.values[0]", "as": "_vgsid_"},
+        {"type": "collect", "sort": {"field": "_vgsid_"}}
+      ]
+    },
     {
       "name": "source_0",
       "url": "data/cars.json",
@@ -88,7 +94,7 @@
           "y": {"scale": "y", "field": "Miles_per_Gallon"},
           "size": [
             {
-              "test": "!(length(data(\"paintbrush_store\"))) || (vlSelectionTest(\"paintbrush_store\", datum))",
+              "test": "!(length(data(\"paintbrush_store\"))) || (vlSelectionIdTest(\"paintbrush_store\", datum))",
               "value": 300
             },
             {"value": 50}
