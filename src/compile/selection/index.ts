@@ -1,14 +1,7 @@
 import {Binding, isString, NewSignal, Signal, Stream} from 'vega';
 import {stringValue} from 'vega-util';
 import {FACET_CHANNELS} from '../../channel';
-import {
-  LegendBinding,
-  SelectionInit,
-  SelectionInitInterval,
-  SelectionResolution,
-  SelectionType,
-  SELECTION_ID
-} from '../../selection';
+import {LegendBinding, SelectionInit, SelectionInitInterval, SelectionResolution, SelectionType} from '../../selection';
 import {Dict, vals} from '../../util';
 import {OutputNode} from '../data/dataflow';
 import {FacetModel} from '../facet';
@@ -106,9 +99,10 @@ export function unitName(model: Model, {escape} = {escape: true}) {
 }
 
 export function requiresSelectionId(model: Model) {
-  return vals(model.component.selection ?? {}).reduce((identifier, selCmpt) => {
-    return identifier || selCmpt.project.items.some(proj => proj.field === SELECTION_ID);
-  }, false);
+  return vals(model.component.selection ?? {}).reduce(
+    (identifier, selCmpt) => identifier || selCmpt.project.hasSelectionId(),
+    false
+  );
 }
 
 // Binding a point selection to query widgets or legends disables default direct manipulation interaction.

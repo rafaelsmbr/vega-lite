@@ -8,7 +8,7 @@ import {
 } from '../../channel';
 import * as log from '../../log';
 import {hasContinuousDomain} from '../../scale';
-import {BaseSelectionConfig, SelectionInitIntervalMapping, SelectionInitMapping} from '../../selection';
+import {BaseSelectionConfig, SelectionInitIntervalMapping, SelectionInitMapping, SELECTION_ID} from '../../selection';
 import {Dict, hash, keys, replacePathInField, varName, isEmpty} from '../../util';
 import {TimeUnitComponent, TimeUnitNode} from '../data/timeunit';
 import {SelectionCompiler} from '.';
@@ -36,6 +36,7 @@ export interface SelectionProjection {
 export class SelectionProjectionComponent {
   public hasChannel: Partial<Record<SingleDefUnitChannel, SelectionProjection>>;
   public hasField: Record<string, SelectionProjection>;
+  public selectionIdIdx: number;
   public timeUnit?: TimeUnitNode;
   public items: SelectionProjection[];
 
@@ -43,6 +44,11 @@ export class SelectionProjectionComponent {
     this.items = items;
     this.hasChannel = {};
     this.hasField = {};
+    this.selectionIdIdx = -1;
+  }
+
+  public hasSelectionId() {
+    return this.selectionIdIdx !== -1;
   }
 }
 
@@ -108,6 +114,7 @@ const project: SelectionCompiler = {
       p.signals = {...signalName(p, 'data')};
       proj.items.push(p);
       proj.hasField[field] = p;
+      proj.selectionIdIdx = field === SELECTION_ID ? proj.items.length - 1 : proj.selectionIdIdx;
     }
 
     for (const channel of encodings ?? []) {

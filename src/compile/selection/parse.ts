@@ -79,9 +79,8 @@ export function parseSelectionPredicate(
       stores.push(store);
     }
 
-    return (
-      `vlSelectionTest(${store}, ${datum}` + (selCmpt.resolve === 'global' ? ')' : `, ${stringValue(selCmpt.resolve)})`)
-    );
+    const fn = selCmpt.project.hasSelectionId() ? 'vlSelectionIdTest' : 'vlSelectionTest';
+    return `${fn}(${store}, ${datum}` + (selCmpt.resolve === 'global' ? ')' : `, ${stringValue(selCmpt.resolve)})`);
   }
 
   const predicateStr = logicalExpr(selections, expr);

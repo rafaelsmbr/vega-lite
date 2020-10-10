@@ -127,11 +127,11 @@ const interval: SelectionCompiler<'interval'> = {
         `]`;
 
       const intersect = `intersect(${bbox}, {markname: ${stringValue(model.getName('marks'))}}, unit.mark)`;
-      const base = `{unit: ${unitName(model)}, fields: [${name + TUPLE_FIELDS}[0]]}`;
+      const base = `{unit: ${unitName(model)}, fields: [${name + TUPLE_FIELDS}[${selCmpt.project.selectionIdIdx}]]}`;
 
       return signals.concat({
         name: tupleSg,
-        update: `vlSelectionTuples(${intersect}, ${base}, ${stringValue('values')})`
+        update: `vlSelectionTuples(${intersect}, ${base})`
       });
     }
   },
