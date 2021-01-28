@@ -13,7 +13,7 @@ import {getSecondaryRangeChannel, isScaleChannel, ScaleChannel} from '../../chan
 import {
   binRequiresRange,
   getFieldOrDatumDef,
-  hasBand,
+  hasBandEnd,
   isDatumDef,
   isFieldDef,
   ScaleDatumDef,
@@ -348,7 +348,7 @@ function parseSingleChannelDomain(
   } else if (
     fieldDef.timeUnit &&
     util.contains(['time', 'utc'], scaleType) &&
-    hasBand(
+    hasBandEnd(
       channel,
       fieldDef,
       isUnitModel(model) ? model.encoding[getSecondaryRangeChannel(channel)] : undefined,

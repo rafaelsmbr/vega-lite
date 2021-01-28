@@ -153,12 +153,12 @@ describe('Mark: Bar', () => {
     });
   });
 
-  describe('simple horizontal with band', () => {
+  describe('simple horizontal with height band', () => {
     const model = parseUnitModelWithScaleAndLayoutSize({
       data: {url: 'data/cars.json'},
-      mark: 'bar',
+      mark: {type: 'bar', height: {band: 0.6}},
       encoding: {
-        y: {field: 'Origin', type: 'nominal', band: 0.6},
+        y: {field: 'Origin', type: 'nominal'},
         x: {aggregate: 'mean', field: 'Acceleration', type: 'quantitative'}
       }
     });
@@ -266,7 +266,7 @@ describe('Mark: Bar', () => {
     });
     const props = bar.encodeEntry(model);
 
-    it('should draw bar from zero to field value and with band value for x/width', () => {
+    it('should draw bar from zero to field value and with band value for yc/height', () => {
       expect(props.yc).toEqual({scale: 'y', field: 'Origin', band: 0.5});
       expect(props.height).toEqual({scale: 'size', field: 'mean_Horsepower'});
       expect(props.x).toEqual({scale: 'x', field: 'mean_Acceleration'});

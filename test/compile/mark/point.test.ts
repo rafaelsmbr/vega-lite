@@ -83,7 +83,7 @@ describe('Mark: Point', () => {
     const model = parseUnitModelWithScaleAndLayoutSize({
       mark: 'point',
       encoding: {
-        x: {field: 'a', type: 'quantitative', band: 0.5, stack: 'zero'},
+        x: {field: 'a', type: 'quantitative', bandPosition: 0.5, stack: 'zero'},
         color: {field: 'b', type: 'ordinal'}
       },
       data: {url: 'data/barley.json'}
@@ -100,7 +100,7 @@ describe('Mark: Point', () => {
     const model = parseUnitModelWithScaleAndLayoutSize({
       mark: 'point',
       encoding: {
-        x: {bin: true, field: 'a', type: 'quantitative', band: 0.6}
+        x: {bin: true, field: 'a', type: 'quantitative', bandPosition: 0.6}
       },
       data: {url: 'data/barley.json'}
     });
@@ -119,7 +119,7 @@ describe('Mark: Point', () => {
     const model = parseUnitModelWithScaleAndLayoutSize({
       mark: 'point',
       encoding: {
-        x: {field: 'a', type: 'nominal', band: 0.6, scale: {type: 'band'}}
+        x: {field: 'a', type: 'nominal', bandPosition: 0.6, scale: {type: 'band'}}
       },
       data: {url: 'data/barley.json'}
     });
