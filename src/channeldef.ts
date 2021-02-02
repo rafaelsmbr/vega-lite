@@ -47,7 +47,7 @@ import {
   Y,
   Y2
 } from './channel';
-import {getMarkConfig} from './compile/common';
+import {getMarkConfig, getMarkPropOrConfig} from './compile/common';
 import {isCustomFormatType} from './compile/format';
 import {CompositeAggregate} from './compositemark';
 import {Config} from './config';
@@ -548,7 +548,8 @@ export function getBandSize({
   fieldDef2,
   markDef: mark,
   config,
-  scaleType
+  scaleType,
+  useVlSizeChannel
 }: {
   channel: PositionScaleChannel | PolarPositionScaleChannel;
   fieldDef: ChannelDef<string>;
@@ -556,10 +557,15 @@ export function getBandSize({
   markDef: MarkDef<Mark, SignalRef>;
   config: Config<SignalRef>;
   scaleType: ScaleType;
+  useVlSizeChannel?: boolean;
 }): number | RelativeBandSize | SignalRef {
-  const dimensionSize = mark[getSizeChannel(channel)];
-  if (dimensionSize !== undefined) {
-    return dimensionSize;
+  const sizeChannel = getSizeChannel(channel);
+  const size = getMarkPropOrConfig(useVlSizeChannel ? 'size' : sizeChannel, mark, config, {
+    vgChannel: sizeChannel
+  });
+
+  if (size !== undefined) {
+    return size;
   }
 
   if (isFieldDef(fieldDef)) {

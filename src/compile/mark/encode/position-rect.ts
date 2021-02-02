@@ -137,22 +137,13 @@ function positionAndSize(
   // use "size" channel for bars, if there is orient and the channel matches the right orientation
   const useVlSizeChannel = (orient === 'horizontal' && channel === 'y') || (orient === 'vertical' && channel === 'x');
 
-  const sizeFromMarkOrConfig = getMarkPropOrConfig(useVlSizeChannel ? 'size' : vgSizeChannel, markDef, config, {
-    vgChannel: vgSizeChannel
-  });
-
   // Use size encoding / mark property / config if it exists
   let sizeMixins;
-  if (encoding.size || sizeFromMarkOrConfig !== undefined) {
+  if (encoding.size || markDef.size) {
     if (useVlSizeChannel) {
       sizeMixins = nonPosition('size', model, {
         vgChannel: vgSizeChannel,
-        defaultRef: isRelativeBandSize(sizeFromMarkOrConfig)
-          ? {
-              scale: scaleName,
-              band: sizeFromMarkOrConfig.band
-            }
-          : signalOrValueRef(sizeFromMarkOrConfig)
+        defaultRef: signalOrValueRef(markDef.size)
       });
     } else {
       log.warn(log.message.cannotApplySizeToNonOrientedMark(markDef.type));
@@ -160,7 +151,7 @@ function positionAndSize(
   }
 
   // Otherwise, apply default value
-  const bandSize = getBandSize({channel, fieldDef, markDef, config, scaleType: scale?.get('type')});
+  const bandSize = getBandSize({channel, fieldDef, markDef, config, scaleType: scale?.get('type'), useVlSizeChannel});
 
   sizeMixins = sizeMixins || {[vgSizeChannel]: defaultSizeRef(vgSizeChannel, scaleName, scale, config, bandSize)};
 
