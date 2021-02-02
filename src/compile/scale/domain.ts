@@ -349,10 +349,8 @@ function parseSingleChannelDomain(
     fieldDef.timeUnit &&
     util.contains(['time', 'utc'], scaleType) &&
     hasBandEnd(
-      channel,
       fieldDef,
       isUnitModel(model) ? model.encoding[getSecondaryRangeChannel(channel)] : undefined,
-      model.stack,
       model.markDef,
       model.config
     )

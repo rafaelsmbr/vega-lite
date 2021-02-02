@@ -247,11 +247,9 @@ export function midPoint({
         bandPosition =
           bandPosition ??
           getBandPosition({
-            channel,
             fieldDef: channelDef,
             fieldDef2: channel2Def,
             markDef,
-            stack,
             config
           });
         const {bin, timeUnit, type} = channelDef;

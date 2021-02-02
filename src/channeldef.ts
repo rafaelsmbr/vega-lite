@@ -64,7 +64,7 @@ import {Predicate} from './predicate';
 import {hasDiscreteDomain, isContinuousToDiscrete, Scale, SCALE_CATEGORY_INDEX} from './scale';
 import {isSortByChannel, Sort, SortOrder} from './sort';
 import {isFacetFieldDef} from './spec/facet';
-import {StackOffset, StackProperties} from './stack';
+import {StackOffset} from './stack';
 import {
   getTimeUnitParts,
   isLocalSingleTimeUnit,
@@ -513,17 +513,13 @@ export interface PositionMixins {
 export type PolarDef<F extends Field> = PositionFieldDefBase<F> | PositionDatumDefBase<F> | PositionValueDef;
 
 export function getBandPosition({
-  channel,
   fieldDef,
   fieldDef2,
   markDef: mark,
-  stack,
   config
 }: {
-  channel: Channel;
   fieldDef: FieldDef<string> | DatumDef;
   fieldDef2?: SecondaryChannelDef<string>;
-  stack: StackProperties;
   markDef: MarkDef<Mark, SignalRef>;
   config: Config<SignalRef>;
 }): number {
@@ -593,17 +589,15 @@ export function getBandSize({
 }
 
 export function hasBandEnd(
-  channel: Channel,
   fieldDef: FieldDef<string>,
   fieldDef2: SecondaryChannelDef<string>,
-  stack: StackProperties,
   markDef: MarkDef<Mark, SignalRef>,
   config: Config<SignalRef>
 ): boolean {
   if (isBinning(fieldDef.bin) || (fieldDef.timeUnit && isTypedFieldDef(fieldDef) && fieldDef.type === 'temporal')) {
     // Need to check bandPosition because non-rect marks (e.g., point) with timeUnit
     // doesn't have to use bandEnd if there is no bandPosition.
-    return getBandPosition({channel, fieldDef, fieldDef2, stack, markDef, config}) !== undefined;
+    return getBandPosition({fieldDef, fieldDef2, markDef, config}) !== undefined;
   }
   return false;
 }

@@ -6,24 +6,6 @@ import {defaultBarConfig} from '../../../src/mark';
 import {parseUnitModelWithScaleAndLayoutSize} from '../../util';
 
 describe('Mark: Bar', () => {
-  describe('1D vertical', () => {
-    const model = parseUnitModelWithScaleAndLayoutSize({
-      data: {url: 'data/cars.json'},
-      mark: {type: 'bar', width: {band: 0.5}},
-      encoding: {
-        y: {type: 'quantitative', field: 'Acceleration', aggregate: 'mean'}
-      }
-    });
-    const props = bar.encodeEntry(model);
-
-    it('should draw bar, with y from zero to field value and with band value for x/width', () => {
-      expect(props.width).toEqual({mult: 0.5, field: {group: 'width'}});
-      expect(props.y).toEqual({scale: 'y', field: 'mean_Acceleration'});
-      expect(props.y2).toEqual({scale: 'y', value: 0});
-      expect(props.height).toBeUndefined();
-    });
-  });
-
   describe('simple vertical', () => {
     const model = parseUnitModelWithScaleAndLayoutSize({
       data: {url: 'data/cars.json'},
@@ -757,20 +739,22 @@ describe('Mark: Bar', () => {
 
   describe('1D vertical', () => {
     const model = parseUnitModelWithScaleAndLayoutSize({
-      mark: 'bar',
-      encoding: {y: {type: 'quantitative', field: 'US_Gross', aggregate: 'sum'}},
-      data: {url: 'data/movies.json'}
+      data: {url: 'data/cars.json'},
+      mark: {type: 'bar', width: {band: 0.5}},
+      encoding: {
+        y: {type: 'quantitative', field: 'Acceleration', aggregate: 'mean'}
+      }
     });
     const props = bar.encodeEntry(model);
-
     it('should have y end on axis, have no-height and have x-offset', () => {
-      expect(props.y).toEqual({scale: 'y', field: 'sum_US_Gross'});
+      expect(props.y).toEqual({scale: 'y', field: 'mean_Acceleration'});
       expect(props.y2).toEqual({scale: 'y', value: 0});
       expect(props.height).toBeUndefined();
       expect(props.xc).toEqual({
         mult: 0.5,
         signal: 'width'
       });
+      expect(props.width).toEqual({mult: 0.5, field: {group: 'width'}});
     });
   });
 
