@@ -109,7 +109,7 @@ export interface VLOnlyMarkConfig<ES extends ExprRef | SignalRef> extends ColorM
    * Default relative band size for a time unit. If set to `1`, the bandwidth of the marks will be equal to the time unit band step.
    * If set to `0.5`, bandwidth of the marks will be half of the time unit band step.
    */
-  timeUnitBand?: number;
+  timeUnitBandSize?: number;
 
   /**
    * The end angle of arc marks in radians. A value of 0 indicates up or “north”, increasing values proceed clockwise.
@@ -329,7 +329,7 @@ const VL_ONLY_MARK_CONFIG_INDEX: Flag<keyof VLOnlyMarkConfig<any>> = {
   order: 1,
   radius2: 1,
   theta2: 1,
-  timeUnitBand: 1,
+  timeUnitBandSize: 1,
   timeUnitBandPosition: 1
 };
 
@@ -348,7 +348,7 @@ export const VL_ONLY_MARK_SPECIFIC_CONFIG_PROPERTY_INDEX: {
 export const defaultMarkConfig: MarkConfig<SignalRef> = {
   color: '#4c78a8',
   invalid: 'filter',
-  timeUnitBand: 1
+  timeUnitBandSize: 1
 };
 
 // TODO: replace with MarkConfigMixins[Mark] once https://github.com/vega/ts-json-schema-generator/issues/344 is fixed
@@ -459,10 +459,12 @@ export function isRelativeBandSize(o: number | RelativeBandSize | ExprRef | Sign
   return o && o['band'] != undefined;
 }
 
-export const BAR_CORNER_RADIUS_INDEX: Partial<Record<
-  Orientation,
-  ('cornerRadiusTopLeft' | 'cornerRadiusTopRight' | 'cornerRadiusBottomLeft' | 'cornerRadiusBottomRight')[]
->> = {
+export const BAR_CORNER_RADIUS_INDEX: Partial<
+  Record<
+    Orientation,
+    ('cornerRadiusTopLeft' | 'cornerRadiusTopRight' | 'cornerRadiusBottomLeft' | 'cornerRadiusBottomRight')[]
+  >
+> = {
   horizontal: ['cornerRadiusTopRight', 'cornerRadiusBottomRight'],
   vertical: ['cornerRadiusTopLeft', 'cornerRadiusTopRight']
 };

@@ -572,7 +572,7 @@ export function getBandSize({
     const {timeUnit, bin} = fieldDef;
 
     if (timeUnit && !fieldDef2) {
-      return {band: getMarkConfig('timeUnitBand', mark, config)};
+      return {band: getMarkConfig('timeUnitBandSize', mark, config)};
     } else if (isBinning(bin) && !hasDiscreteDomain(scaleType)) {
       return {band: 1};
     }
