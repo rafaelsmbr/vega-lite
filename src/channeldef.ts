@@ -533,7 +533,7 @@ export function getBandPosition({
   if (isFieldDef(fieldDef)) {
     const {timeUnit, bin} = fieldDef;
     if (timeUnit && !fieldDef2) {
-      return isRectBasedMark(mark.type) ? getMarkConfig('timeUnitBand', mark, config) : 0;
+      return isRectBasedMark(mark.type) ? 0 : getMarkConfig('timeUnitBandPosition', mark, config);
     } else if (isBinning(bin)) {
       return 0.5;
     }
@@ -597,7 +597,7 @@ export function hasBandEnd(
   if (isBinning(fieldDef.bin) || (fieldDef.timeUnit && isTypedFieldDef(fieldDef) && fieldDef.type === 'temporal')) {
     // Need to check bandPosition because non-rect marks (e.g., point) with timeUnit
     // doesn't have to use bandEnd if there is no bandPosition.
-    return !!getBandPosition({channel, fieldDef, fieldDef2, stack, markDef, config});
+    return getBandPosition({channel, fieldDef, fieldDef2, stack, markDef, config}) !== undefined;
   }
   return false;
 }
