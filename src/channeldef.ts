@@ -538,9 +538,6 @@ export function getBandPosition({
       return 0.5;
     }
   }
-  if (stack?.fieldChannel === channel) {
-    return 0.5;
-  }
 
   return undefined;
 }
