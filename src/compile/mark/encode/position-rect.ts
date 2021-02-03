@@ -53,7 +53,7 @@ export function rectPosition(
   if (
     isFieldDef(channelDef) &&
     (isBinning(channelDef.bin) || isBinned(channelDef.bin) || (channelDef.timeUnit && !channelDef2)) &&
-    !hasSizeDef &&
+    !(hasSizeDef && !isRelativeBandSize(hasSizeDef)) &&
     !hasDiscreteDomain(scaleType)
   ) {
     const bandSize = getBandSize({channel, fieldDef: channelDef, markDef, config, scaleType});
